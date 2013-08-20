@@ -2,7 +2,7 @@ import datetime
 
 import numpy as np
 
-from chaco.api import ArrayPlotData, Plot
+from chaco.api import ArrayPlotData, Plot, VPlotContainer
 from chaco.tools.api import ZoomTool, PanTool
 from chaco.scales.api import CalendarScaleSystem
 from chaco.scales_tick_generator import ScalesTickGenerator
@@ -36,7 +36,7 @@ class TimeSerieGenerator(HasTraits):
     @cached_property
     def _get_data(self):
         days = (self.to_date - self.from_date).days
-        results =  np.random.random(days)
+        results =  np.cumprod(np.random.lognormal(0.0, 0.04, size=days))
         return results
 
     @cached_property

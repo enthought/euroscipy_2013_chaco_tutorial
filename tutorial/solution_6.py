@@ -36,7 +36,7 @@ class TimeSerieGenerator(HasTraits):
     @cached_property
     def _get_data(self):
         days = (self.to_date - self.from_date).days
-        results =  np.random.random(days)
+        results =  np.cumprod(np.random.lognormal(0.0, 0.04, size=days))
         return results
 
     @cached_property

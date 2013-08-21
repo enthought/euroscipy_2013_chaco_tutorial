@@ -42,6 +42,8 @@ class TimeSerieGenerator(HasTraits):
         timestamps = seconds.astype(int)
         return timestamps
 
+    ### Traits UI view #########################################################
+
     traits_view = View(
         VGroup(
             HGroup('code'),
@@ -56,6 +58,26 @@ class TimeSerieGenerator(HasTraits):
         resizable=True
     )
 
+class DataViewer(HasTraits):
+
+    data_provider = Instance(TimeSerieGenerator, ())
+
+    plot = Instance(Plot)
+
+    ### Your code goes here.
+
+    ### Traits UI view #########################################################
+    traits_view = View(
+        HGroup(
+            Item('data_provider', editor=InstanceEditor(), style='custom',
+                  show_label=False),
+            Item('plot', editor=ComponentEditor(size=(1024, 768)),
+                 show_label=False),
+        ),
+        title='Data viewer',
+        resizable=True,
+    )
+
 if __name__ == '__main__':
-    generator = TimeSerieGenerator()
-    generator.configure_traits()
+    viewer = DataViewer()
+    viewer.configure_traits()

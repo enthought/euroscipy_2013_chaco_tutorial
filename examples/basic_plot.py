@@ -19,18 +19,6 @@ class BasicPlotViewer(HasTraits):
     dataset = Instance(ArrayPlotData)
     plot = Instance(Component)
 
-    traits_view = View(
-        Group(
-            Item(
-                'plot',
-                editor=ComponentEditor(size=(650, 650), bgcolor="lightgray"),
-                show_label=False
-            ),
-            orientation = "vertical"
-        ),
-        resizable=True, title="Basic scatter plot"
-    )
-
     def _dataset_default(self):
         # Create some data
         numpts = 5000
@@ -43,7 +31,6 @@ class BasicPlotViewer(HasTraits):
         dataset.set_data("value", y)
 
         return dataset
-
 
     def _plot_default(self):
         # Create the plot
@@ -62,6 +49,22 @@ class BasicPlotViewer(HasTraits):
         plot.padding = 50
 
         return plot
+
+
+    ### Traits UI view #########################################################
+
+    traits_view = View(
+        Group(
+            Item(
+                'plot',
+                editor=ComponentEditor(size=(650, 650)),
+                show_label=False
+            ),
+            orientation = "vertical"
+        ),
+        resizable=True, title="Basic scatter plot"
+    )
+
 
 if __name__ == "__main__":
 

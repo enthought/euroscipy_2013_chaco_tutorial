@@ -1,0 +1,33 @@
+from enaml.widgets.api import (
+    Container, DatetimeSelector, DockPane, EnableCanvas, Field, Form, Label,
+    MainWindow
+)
+from enaml.layout.api import hbox
+
+
+enamldef Viewer(MainWindow):
+
+    attr model
+    initial_size = (800, 600)
+    title = 'Data viewer'
+
+    DockPane:
+        Form:
+            id: properties
+            Label:
+                text = 'Code'
+            Field:
+                text := model.data_provider.code
+            Label:
+                text = 'From date'
+            DatetimeSelector:
+                datetime := model.data_provider.from_date
+            Label:
+                text = 'To date'
+            DatetimeSelector:
+                datetime := model.data_provider.to_date
+
+    Container:
+        EnableCanvas:
+            id: plot
+            component = model.plot

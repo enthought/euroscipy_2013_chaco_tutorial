@@ -1,3 +1,8 @@
+""" Basic enaml example
+
+Requires enaml 0.6.x
+
+"""
 import enaml
 from enaml.stdlib.sessions import show_simple_view
 

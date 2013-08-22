@@ -15,7 +15,7 @@ from traitsui.api import (
     ButtonEditor, EnumEditor, HGroup, Item, InstanceEditor, Spring, VGroup, View
 )
 
-today = datetime.datetime.today()
+today = datetime.date.today()
 
 class TimeSerieGenerator(HasTraits):
     """ Very basic time serie generator. """
@@ -62,9 +62,28 @@ class DataViewer(HasTraits):
 
     data_provider = Instance(TimeSerieGenerator, ())
 
+    datasource = Instance(ArrayPlotData)
     plot = Instance(Plot)
 
-    ### Your code goes here.
+    def _datasource_default(self):
+        datasource = ArrayPlotData()
+        datasource.set_data('dates', self.data_provider.timestamps)
+        datasource.set_data('values', self.data_provider.data)
+
+        return datasource
+
+    def _plot_default(self):
+
+        plot = Plot(self.datasource)
+
+        plot.plot( ('dates', 'values'), type='scatter')
+
+        return plot
+
+    @on_trait_change('data_provider.generate')
+    def _update_dataset(self):
+        self.datasource.set_data('dates', self.data_provider.timestamps)
+        self.datasource.set_data('values', self.data_provider.data)
 
     ### Traits UI view #########################################################
     traits_view = View(
